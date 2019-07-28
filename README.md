@@ -26,7 +26,8 @@ docker pull keinos/speaker-test
 
 ```shellsession
 $ cd ~/
-$ curl https://KEINOS.github.io/Dockerfile_of_Speaker-Test-for-MacHost/run-test-local.sh
+$ curl https://KEINOS.github.io/Dockerfile_of_Speaker-Test-for-MacHost/run-test-local.sh -o run-test-local.sh
+$ chmod +x $_
 $ ./run-test-local.sh
 ```
 
