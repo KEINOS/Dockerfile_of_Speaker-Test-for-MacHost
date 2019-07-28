@@ -3,7 +3,7 @@
 # Run this script localy from your macOS.
 # If you hear "Front, left. Front, right." then the container is working properly.
 
-name_image='keinos/speaker-test'
+name_image='keinos/speaker-test:latest'
 
 function isPulseAudioUp(){
     pulseaudio --check -v > /dev/null 2>&1
@@ -52,8 +52,8 @@ isPulseAudioUp || {
 docker image ls | grep $name_image > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo '- No image found.'
-  echo '  Building image ...'
-  docker build --no-cache -t $name_image .
+  echo '  Pulling image ...'
+  docker pull $name_image
 fi
 
 docker run --rm -it -v ~/.config/pulse:/home/pulseaudio/.config/pulse $name_image

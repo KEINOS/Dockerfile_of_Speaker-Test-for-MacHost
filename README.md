@@ -24,15 +24,9 @@ docker pull keinos/speaker-test
 
 ### The easy way
 
-1. Clone and move into the repo.
-2. Run the test script.
-
 ```shellsession
-$ # Move to any working directory
 $ cd ~/
-$ # Clone the repo
-$ git clone https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost.git speaker-test && cd $_
-$ # Run the test script
+$ curl https://KEINOS.github.io/Dockerfile_of_Speaker-Test-for-MacHost/run-test-local.sh
 $ ./run-test-local.sh
 ```
 
@@ -52,7 +46,7 @@ $ ./run-test-local.sh
     $ docker pull keinos/speaker-test
     ```
 
-    Or clone the repo and build it locally
+    Or clone the repo and build it locally. Try if your architecture is not x86_64 and get errors.
 
     ```shellsession
     $ cd ~/
@@ -98,4 +92,4 @@ $ ./run-test-local.sh
 
 ## Tested Machines
 
-- See Issue #1
+- [List of env info that worked](https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost/issues/1)
