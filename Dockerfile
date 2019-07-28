@@ -1,9 +1,9 @@
 FROM debian:sid-slim
 
-LABEL maintainer "KEINOS https://github.com/KEINOS" \
-      usage "https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost" \
-      author "Jessie Frazelle <jess@linux.com>" \
-      contributors "https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost/graphs/contributors"
+LABEL maintainer="KEINOS https://github.com/KEINOS" \
+      usage="https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost" \
+      author="Jessie Frazelle <jess@linux.com>" \
+      contributors="https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost/graphs/contributors"
 
 RUN apt-get update && apt-get install -y \
 	alsa-utils \
