@@ -1,10 +1,10 @@
-![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/keinos/speaker-test)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/keinos/speaker-test)
-
+[![](https://images.microbadger.com/badges/image/keinos/speaker-test.svg)](https://microbadger.com/images/keinos/speaker-test "View image details on microbadger.com")
+[![](https://img.shields.io/docker/cloud/automated/keinos/speaker-test)](https://hub.docker.com/r/keinos/speaker-test "View on Docker Hub")
+[![](https://img.shields.io/docker/cloud/build/keinos/speaker-test)](https://hub.docker.com/r/keinos/speaker-test/builds "View on Docker Hub")
 
 # Speaker-Test for macOS Host
 
-This docker image just plays a sound test of ALSA from the container. Aimed to check, if it plays from the macOS host's speaker.
+This docker image just plays the test sound of [ALSA](https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture) from the container. Aimed to check, if it plays from the macOS host's speaker.
 
 ```bash
 docker pull keinos/speaker-test
@@ -44,7 +44,21 @@ $ ./run-test-local.sh
     ...
     ```
 
-2. Run the container.
+2. `pull` or `build` the image.
+
+    ```shellsession
+    $ docker pull keinos/speaker-test
+    ```
+
+    Or clone the repo and build it locally
+
+    ```shellsession
+    $ cd ~/
+    $ git clone https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost.git speaker-test && cd $_
+    $ docker build --no-cache -t keinos/speaker-test .
+    ```
+
+3. Run the container.
 
     ```bash
     docker run --rm -it -v ~/.config/pulse:/home/pulseaudio/.config/pulse keinos/speaker-test
