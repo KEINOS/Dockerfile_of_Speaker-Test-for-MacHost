@@ -12,7 +12,7 @@ docker pull keinos/speaker-test
 
 ## Requirements
 
-- `pulseaudio` must be installed on your maOS host. Using [Homebrew](https://brew.sh/) is the easiest way.
+- `pulseaudio` must be installed on your macOS host. Using [Homebrew](https://brew.sh/) is the easiest way.
 
     ```shellsession
     $ # Install pulseaudio
@@ -25,12 +25,14 @@ docker pull keinos/speaker-test
 ### The easy way
 
 1. Clone and move into the repo.
-2. run the test script.
+2. Run the test script.
 
 ```shellsession
 $ # Move to any working directory
 $ cd ~/
+$ # Clone the repo
 $ git clone https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost.git speaker-test && cd $_
+$ # Run the test script
 $ ./run-test-local.sh
 ```
 
