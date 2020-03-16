@@ -4,7 +4,12 @@
 
 # Speaker-Test for macOS Host
 
-This docker image just plays the test sound of [ALSA](https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture) from the container. Aimed to check, if it plays from the macOS host's speaker.
+This Docker image just plays the [ALSA](https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture)'s test sound in the container from the macOS host's speaker.
+
+```bash
+curl -L https://git.io/Jvihu -o run-test-local.sh && chmod +x "$_"
+./run-test-local.sh
+```
 
 ```bash
 docker pull keinos/speaker-test
@@ -22,16 +27,23 @@ docker pull keinos/speaker-test
 
 ## How to use
 
-### The easy way
+### The Easy Way
+
+Download the shell script from https://git.io/Jvihu and run.
 
 ```shellsession
+$ # Download the script
 $ cd ~/
-$ curl https://KEINOS.github.io/Dockerfile_of_Speaker-Test-for-MacHost/run-test-local.sh -o run-test-local.sh
-$ chmod +x $_
+$ curl -L https://git.io/Jvihu -o run-test-local.sh && chmod +x "$_"
+$ # Run the script
 $ ./run-test-local.sh
 ```
 
-### The proper way
+- **NOTE:** 
+  - It might be asked for a permission to let PalseAudio access your host.
+  - https://git.io/Jvihu is an alias of https://KEINOS.github.io/Dockerfile_of_Speaker-Test-for-MacHost/run-test-local.sh
+
+### The Proper Way
 
 1. Be sure that `pulseaudio` is running on host's (macOS') backgroud as a daemon.
 
@@ -51,7 +63,8 @@ $ ./run-test-local.sh
 
     ```shellsession
     $ cd ~/
-    $ git clone https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost.git speaker-test && cd $_
+    $ git clone https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost.git speaker-test
+    $ cd "$_"
     $ docker build --no-cache -t keinos/speaker-test .
     ```
 
