@@ -1,35 +1,42 @@
-FROM debian:sid-slim
+FROM keinos/alpine:latest
 
-LABEL maintainer="KEINOS https://github.com/KEINOS" \
-      usage="https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost" \
-      author="Jessie Frazelle <jess@linux.com>" \
-      contributors="https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost/graphs/contributors"
+LABEL \
+    maintainer="KEINOS https://github.com/KEINOS" \
+    usage="https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost" \
+    author="Jessie Frazelle <jess@linux.com> & KEINOS https://github.com/KEINOS" \
+    contributors="https://github.com/KEINOS/Dockerfile_of_Speaker-Test-for-MacHost/graphs/contributors"
 
-RUN apt-get update && apt-get install -y \
-	alsa-utils \
-	libasound2 \
-	libasound2-plugins \
-	pulseaudio \
-	pulseaudio-utils \
-	--no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/*
+USER root
 
-ENV HOME /home/pulseaudio
-ENV PULSE_SERVER docker.for.mac.localhost
+RUN apk --no-cache add \
+    curl \
+    alsa-utils \
+    alsa-lib \
+    alsaconf \
+    alsa-plugins-pulse \
+    pulseaudio \
+    pulseaudio-dev \
+    pulseaudio-zeroconf \
+    pulseaudio-utils \
+    pulseaudio-alsa \
+    pulseaudio-jack \
+    && rm -rf /var/cache/apk/* /tmp/*
 
-RUN useradd --create-home --home-dir $HOME pulseaudio \
-	&& usermod -aG audio,pulse,pulse-access pulseaudio \
-	&& chown -R pulseaudio:pulseaudio $HOME
-COPY script/run-speaker-test.sh $HOME/run-speaker-test.sh
+RUN \
+    curl -o /usr/local/bin/pulsemixer -jkSL https://raw.githubusercontent.com/GeorgeFilipkin/pulsemixer/master/pulsemixer \
+    && chmod +x /usr/local/bin/pulsemixer
 
-WORKDIR $HOME
-USER pulseaudio
+ENV \
+    HOME=/root \
+    PULSE_SERVER=docker.for.mac.localhost
 
-COPY conf/default.pa /etc/pulse/default.pa
-COPY conf/client.conf /etc/pulse/client.conf
-COPY conf/daemon.conf /etc/pulse/daemon.conf
+COPY ./script/run-speaker-test.sh $HOME/run-speaker-test.sh
+COPY ./conf/default.pa /etc/pulse/default.pa
+COPY ./conf/client.conf /etc/pulse/client.conf
+COPY ./conf/daemon.conf /etc/pulse/daemon.conf
+COPY ./conf/asound.conf /etc/asound.conf
 
 #ENTRYPOINT [ "pulseaudio" ]
 #CMD [ "--log-level=4", "--log-target=stderr", "-v" ]
 
-ENTRYPOINT [ "./run-speaker-test.sh" ]
+ENTRYPOINT [ "/root/run-speaker-test.sh" ]

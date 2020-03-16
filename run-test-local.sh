@@ -3,7 +3,9 @@
 # Run this script localy from your macOS.
 # If you hear "Front, left. Front, right." then the container is working properly.
 
-name_image='keinos/speaker-test:latest'
+name_image='woahbase/alpine-pulseaudio'
+tag_image='x86_64'
+name_pull="${name_image}:${tag_image}"
 
 function isPulseAudioUp(){
     pulseaudio --check -v > /dev/null 2>&1
@@ -27,36 +29,45 @@ isCommandAvailable sw_vers || {
 }
 
 isCommandAvailable pulseaudio || {
-  echo '- pulseaudio is not installed. Install it by:'
+  echo '- PulseAudio is not installed. Install it by:'
   echo '  $ brew install pulseaudio'
   exit 1
 }
 
 isCommandAvailable docker || {
-  echo '- docker is not installed. Install it by:'
+  echo '- Docker is not installed. Install it by:'
   echo '  $ brew cask install docker'
   exit 1
 }
 
 isPulseAudioUp || {
-  echo '- pulseaudio is not running.'
+  echo '- PulseAudio is not running.'
   echo -n '  running pulseaudio daemon ... '
   pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon > /dev/null 2>&1
 }
 
 isPulseAudioUp || {
-  echo '- Can not run pulseaudio.'
+  echo '- Can not run PulseAudio.'
   exit 1
 }
+echo '- PulseAudio is UP'
 
-docker image ls | grep $name_image > /dev/null 2>&1
+docker image ls | grep $name_image | grep $tag_image > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo '- No image found.'
   echo '  Pulling image ...'
-  docker pull $name_image
+  docker pull $name_pull
 fi
 
-docker run --rm -it -v ~/.config/pulse:/home/pulseaudio/.config/pulse $name_image
+docker run --rm -it \
+  --hostname pulseaudio \
+  -c 256 -m 256m \
+  -e PGID=1000 -e PUID=1000 \
+  --net=host \
+  --cap-add NET_ADMIN \
+  -v $(cd ~/; pwd)/.config/pulse:/etc/pulse \
+  woahbase/alpine-pulseaudio:x86_64
+
 if [ $? -ne 0 ]; then
   echo '- Fail to run docker container.'
   exit 1
@@ -64,4 +75,7 @@ fi
 
 echo 'DONE.'
 echo 'Did you hear the sample sound?'
+
+echo '- Shutting down PulseAudio ...'
+pulseaudio --kill
 exit 0
